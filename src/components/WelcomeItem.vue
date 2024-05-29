@@ -1,9 +1,26 @@
+<script setup>
+import { ref } from 'vue'
+
+const addClass = ref(false)
+
+function onMouseOver(e) {
+  addClass.value = true
+}
+
+function onMouseLeave(e) {
+  addClass.value = false
+}
+</script>
+
+
 <template>
   <div class="item">
-    <i>
+    <i @mouseover="onMouseOver" @mouseleave="onMouseLeave" >
       <slot name="icon"></slot>
     </i>
-    <div class="details">
+    <div
+        class="details"
+        v-bind:class="{ 'flip': addClass == true }">
       <h3>
         <slot name="heading"></slot>
       </h3>
@@ -22,6 +39,11 @@
 .details {
   flex: 1;
   margin-left: 1rem;
+  transition: 1s;
+}
+
+.details.flip{
+  transform: rotateX(180deg);
 }
 
 i {
@@ -31,6 +53,12 @@ i {
   width: 32px;
   height: 32px;
   color: var(--color-text);
+  transition: 1s;
+}
+
+i:hover{
+  background: darkslategray;
+  color: white;
 }
 
 h3 {
